@@ -3,6 +3,7 @@
  * 必要なファイルを読み込む
  * ------------------------------ */
 require_once 'private/exception_handler.php';
+require_once 'private/database.php';
 
 /**
  * @var PDO $dbh データベースハンドラ
@@ -11,16 +12,16 @@ require_once 'private/exception_handler.php';
 /* --------------------
  * セッション開始
  * -------------------- */
+session_start();
 
 /* ----------------------------------------
  * データベースから投稿されている内容を取得する
  * ---------------------------------------- */
+$statement = $dbh->prepare('SELECT * FROM `articles`');
+$statement->execute();
+$articles = $statement->fetchAll();
 
-// ダミーデータ
-$articles = [
-    ['id' => 1, 'name' => 'Dummy', 'content' => 'Dummyコンテンツ', 'created_at' => '2020-12-09 00:00:00', 'updated_at' => '2020-12-09 00:00:00'],
-    ['id' => 2, 'name' => 'ダミー', 'content' => 'ダミーContent', 'created_at' => '2020-12-09 12:00:00', 'updated_at' => '2020-12-09 12:00:00'],
-]
+$errors = $_SESSION['errors'];
 
 ?>
 
@@ -52,10 +53,10 @@ $articles = [
             <?php foreach ($articles as $article) { ?>
                 <li>
                     <div>
-                        <?= $article['id'] ?>:&nbsp;<?=$article['name'] ?>&nbsp;<?= $article['updated_at'] ?>
+                        <?= $article['id'] ?>:&nbsp;<?= nl2br(htmlentities($article['name'])) ?>&nbsp;<?= $article['updated_at'] ?>
                     </div>
-                    <div><?= $article['content'] ?></div>
-                    <div style="display: inline-flex; display: none">
+                    <div><?= nl2br(htmlentities($article['content'])) ?></div>
+                    <div style="display: inline-flex">
                         <form action="editing.php" method="post">
                             <input type="hidden" name="id" value="<?= $article['id'] ?>">
                             <button type="submit">編集</button>
@@ -71,6 +72,13 @@ $articles = [
             <?php } ?>
         </ul>
         <div>
+            <?php if(!empty($errors)) { ?>
+                <ul>
+                    <?php foreach($errors as $error) { ?>
+                        <li><?= $error ?></li>
+                    <?php } ?>
+                </ul>
+            <?php } ?>
             <form action="confirm.php" method="post">
                 <table>
                     <thead>
@@ -81,11 +89,11 @@ $articles = [
                     <tbody>
                     <tr>
                         <th><label for="name">名前</label></th>
-                        <td><input type="text" name="name" id="name" required></td>
+                        <td><input type="text" name="name" id="name"></td>
                     </tr>
                     <tr>
                         <th><label for="content">投稿内容</label></th>
-                        <td><textarea name="content" id="content" rows="4" required></textarea></td>
+                        <td><textarea name="content" id="content" rows="4"></textarea></td>
                     </tr>
                     </tbody>
                 </table>
@@ -99,3 +107,11 @@ $articles = [
     </footer>
 </body>
 </html>
+
+<?php
+/* --------------------
+ * Session削除
+ * -------------------- */
+foreach (array_keys($_SESSION) as $key) {
+    unset($_SESSION[$key]);
+}

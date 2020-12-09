@@ -10,11 +10,16 @@ require_once 'private/helper.php';
  * @var PDO $dbh データベースハンドラ
  */
 
+/* --------------------
+ * セッション開始
+ * -------------------- */
+session_start();
+
 /* ------------------------------
  * 送られてきた値を取得する
  * セッションにも保存しておく
  * ------------------------------ */
-$id = '';
+$id = $_SESSION['edit_id'] = $_POST['id'] ?? $_SESSION['edit_id'] ?? '';
 
 /* --------------------------------------------------
  * 値のバリデーションを行う
@@ -23,26 +28,33 @@ $id = '';
  * 2.データベースに対象IDのレコードが存在するか
  * -------------------------------------------------- */
 // 1.値が入力されているか
-if(true) {
+if(empty($id)) {
     redirect('/index.php');
 }
 
 // 2.データベースに対象IDのレコードが存在するか
-if(true) {
+$statement = $dbh->prepare('SELECT * FROM `articles` WHERE id = :id');
+$statement->execute(['id' => $id]);
+$result = $statement->fetch();
+
+if($result === false) {
     redirect('/index.php');
 }
 
 /* --------------------
  * 編集する投稿のデータ
  * -------------------- */
-$name = '';
-$content = '';
+$name = $_SESSION['edit_name'] ?? $result['name'];
+$content = $_SESSION['edit_content'] ?? $result['content'];
+
+unset($_SESSION['edit_name']);
+unset($_SESSION['edit_content']);
 
 /* ----------------------------------------
  * 編集画面と編集完了画面で利用するトークンを発行する
  * 今回は時刻をトークンとする
  * ---------------------------------------- */
-$token = strval(time());
+$token = $_SESSION['token'] = strval(time());
 
 ?>
 
@@ -70,13 +82,13 @@ $token = strval(time());
         <h1>投稿編集</h1>
     </header>
     <main>
-        <form action="edit_complete.php" method="post">
+        <form action="confirm_edit.php" method="post">
             <input type="hidden" name="token" value="<?= $token ?>">
             <table>
                 <tbody>
                 <tr>
                     <th><label for="name">名前</label></th>
-                    <td><input type="text" name="name" id="name" value="<?= $name ?>" required></td>
+                    <td><input type="text" name="name" id="name" value="<?= htmlspecialchars($name) ?>" required></td>
                 </tr>
                 <tr>
                     <th><label for="content">投稿内容</label></th>
