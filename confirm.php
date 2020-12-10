@@ -61,8 +61,8 @@ $_SESSION['token'] = $token;
         <div>下記の内容で投稿しますがよろしいですか?</div>
         <table>
             <tbody>
-            <tr><th>名前</th><td><?= $name ?></td></tr>
-            <tr><th>投稿内容</th><td><?= $content ?></td></tr>
+            <tr><th>名前</th><td><?= nl2br(htmlspecialchars($name)) ?></td></tr>
+            <tr><th>投稿内容</th><td><?= nl2br(htmlspecialchars($content)) ?></td></tr>
             </tbody>
         </table>
         <form action="register.php" method="post">
