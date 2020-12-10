@@ -13,9 +13,9 @@ class MySqlSessionHandler implements SessionHandlerInterface {
     /**
      * @var PDO データベースハンドラ
      */
-    private PDO $dbh;
+    private $dbh;
 
-    public function __construct(PDO $dbh)
+    public function __construct($dbh)
     {
         $this->dbh = $dbh;
     }
