@@ -52,6 +52,11 @@ $statement->execute([
 unset($_SESSION['token']);
 unset($_SESSION['content']);
 
+/* ------------------------------
+ * クッキーに名前を保存しておく
+ * ------------------------------ */
+setcookie('user_name', $name);
+
 ?>
 
 <!-- 描画するHTML -->
