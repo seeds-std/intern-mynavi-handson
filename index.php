@@ -103,7 +103,8 @@ $errors = $_SESSION['errors'];
     </main>
     <footer>
         <hr>
-        <div>(b・ω・)b</div>
+        <div style="float:left">(b・ω・)b</div>
+        <div style="float:right">Server: <?= $_SERVER['SERVER_ADDR'] ?></div>
     </footer>
 </body>
 </html>
