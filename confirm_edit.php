@@ -3,6 +3,7 @@
  * 必要なファイルを読み込む
  * ------------------------------ */
 require_once 'private/exception_handler.php';
+require_once 'private/session_handler.php';
 require_once 'private/helper.php';
 
 /* --------------------

@@ -5,3 +5,9 @@ CREATE TABLE IF NOT EXISTS articles (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) COLLATE = utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS php_session (
+    session_id VARCHAR(255) UNIQUE,
+    session_data TEXT,
+    last_activity INT
+);
