@@ -6,7 +6,7 @@ require_once 'database.php';
  */
 
 /**
- * Class MySqlSessionHandler
+ * Class MySqlSessionHandler MySqlを用いてセッションを管理するためのクラス
  */
 class MySqlSessionHandler implements SessionHandlerInterface {
 
@@ -63,4 +63,7 @@ class MySqlSessionHandler implements SessionHandlerInterface {
     }
 }
 
-session_set_save_handler(new MySqlSessionHandler($dbh));
+/* --------------------------------------------------
+ * DBを用いてSessionを管理する場合はコメントアウトを外す
+ * -------------------------------------------------- */
+// session_set_save_handler(new MySqlSessionHandler($dbh));
