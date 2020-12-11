@@ -10,4 +10,4 @@ CREATE TABLE IF NOT EXISTS php_session (
     session_id VARCHAR(255) UNIQUE,
     session_data TEXT,
     last_activity INT
-);
+) COLLATE = utf8mb4_unicode_ci;
