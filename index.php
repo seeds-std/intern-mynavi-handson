@@ -82,7 +82,9 @@ $articles = [
                     <tr>
                         <th><label for="name">名前</label></th>
                         <td><input type="text" name="name" id="name" required></td>
-                    </tr>
+                        <!-- #1 初期値の指定(value) -->
+                        <!-- # エンティティ化(htmlspecialchars()) -->
+                        <!-- <td><input type="text" name="name" id="name" value="<?= htmlspecialchars($_COOKIE['user_name'] ?? '') ?>"></td> -->
                     <tr>
                         <th><label for="content">投稿内容</label></th>
                         <td><textarea name="content" id="content" rows="4" required></textarea></td>
