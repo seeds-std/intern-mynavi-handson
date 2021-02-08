@@ -7,12 +7,15 @@ require_once 'private/database.php';
 
 /** @var PDO $dbh データベースハンドラ */
 
+/* --------------------
+ * セッション開始
+ * -------------------- */
+session_start();
+
 /* ------------------------------
  * 送られてきた値を取得する
  * ------------------------------ */
-$token = '';
-$name = '';
-$content = '';
+$token = $_POST['token'] ?? '';
 
 /* --------------------------------------------------
  * 送られてきたトークンのバリデーション + 値のバリデーション
@@ -20,7 +23,7 @@ $content = '';
  * セッションに保存されているトークンと比較し、
  * 一致していなかった場合はトップ画面にリダイレクトする
  * -------------------------------------------------- */
-if(true) {
+if($token !== $_SESSION['token']) {
     unset($_SESSION['token']);
     redirect('/index.php');
 }
@@ -28,17 +31,27 @@ if(true) {
 /* ----------------------------------------
  * セッション内に保存したIDを取得する
  * ---------------------------------------- */
-$id = '';
+$id = $_SESSION['edit_id'] ?? '';
+$name = $_SESSION['edit_name'] ?? '';
+$content = $_SESSION['edit_content'] ?? '';
 
 /* --------------------
- * データの削除処理
+ * データの編集処理
  * -------------------- */
+$statement = $dbh->prepare('UPDATE `articles` SET name = :name, content = :content WHERE id = :id');
+$statement->execute([
+    'id' => $id,
+    'name' => $name,
+    'content' => $content,
+]);
 
 /* ------------------------------
  * セッション内のデータを削除する
  * ------------------------------ */
 unset($_SESSION['token']);
-unset($_SESSION['id']);
+unset($_SESSION['edit_id']);
+unset($_SESSION['edit_name']);
+unset($_SESSION['edit_content']);
 
 ?>
 

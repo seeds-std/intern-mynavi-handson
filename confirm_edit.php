@@ -10,36 +10,26 @@ require_once 'private/bootstrap.php';
 session_start();
 
 /* ------------------------------
- * 送られてきた値を取得する
- * セッションにも保存しておく
+ * 送られてきた値を取得
  * ------------------------------ */
-$name = $_SESSION['name'] = $_POST['name'];
-$content = $_SESSION['content'] =  $_POST['content'];
+$name = $_POST['name'] ?? '';
+$content = $_POST['content'] ?? '';
+$token = $_POST['token'] ?? '';
 
 /* --------------------------------------------------
- * 値のバリデーションを行う
- *
- * 入力された値が正しいフォーマットで送られているかを確認する
- * 今回は値が入力されているかのみを確認する
+ * 値のバリデーション
  * -------------------------------------------------- */
-if(empty($name) || empty($content)) {
-    $errors = [];
-    if(empty($name)) {
-        $errors[] = '名前を入力してください';
-    }
-    if(empty($content)) {
-        $errors[] = '投稿内容を入力してください';
-    }
-    $_SESSION['errors'] = $errors;
-    redirect('/index.php');
+if($token !== $_SESSION['token'] || empty($name) || empty($content)) {
+    redirect('/editing.php');
 }
 
 /* ----------------------------------------
  * 確認画面と登録画面で利用するトークンを発行する
  * 今回は時刻をトークンとする
  * ---------------------------------------- */
-$token = strval(time());
-$_SESSION['token'] = $token;
+$token = $_SESSION['token'] = strval(time());
+$_SESSION['edit_name'] = $name;
+$_SESSION['edit_content'] =  $content;
 
 ?>
 
@@ -50,28 +40,33 @@ $_SESSION['token'] = $token;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>投稿確認</title>
+    <title>編集確認</title>
 </head>
 <body>
     <header>
         <h1>確認</h1>
     </header>
     <main>
-        <div>下記の内容で投稿しますがよろしいですか?</div>
+        <div>下記の内容で編集しますがよろしいですか?</div>
         <table>
             <tbody>
             <tr><th>名前</th><td><?= nl2br(htmlspecialchars($name)) ?></td></tr>
-            <tr><th>投稿内容</th><td><?= nl2br(htmlspecialchars($content)) ?></td></tr>
+            <tr><th>内容</th><td><?= nl2br(htmlspecialchars($content)) ?></td></tr>
             </tbody>
         </table>
-        <form action="register.php" method="post">
-            <input type="hidden" name="token" value="<?= $token ?>">
-            <button type="submit">投稿</button>
-        </form>
+        <div style="display: inline-flex;">
+            <form action="edit_complete.php" method="post">
+                <input type="hidden" name="token" value="<?= $token ?>">
+                <button type="submit">投稿</button>
+            </form>
+            <form action="editing.php" method="get">
+                <button type="submit">戻る</button>
+            </form>
+        </div>
     </main>
     <footer>
         <hr>
-        <div>_〆(・ω・;)</div>
+        <div>( ・ω・)OK?</div>
     </footer>
 </body>
 </html>
