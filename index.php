@@ -71,6 +71,15 @@ $articles = [
             <?php } ?>
         </ul>
         <div>
+            <!-- 
+                #1 formタグにて任意の情報の入力を行う。
+                今回は入力をinputタグ、textareaタグの2箇所にてそれぞれ行う。
+
+                #2 inputタグではテキスト形式の入力（type="text"）が期待されており、実際に'name'というIDが振られている（id="name"）。
+                また、（name="name"）によって送信先にて送信した入力内容にアクセスできる（後述）。
+
+                #3 textareaタグでは複数行にわたるテキスト入力を期待しており、（以下上と同様の説明）。
+             -->
             <form action="confirm.php" method="post">
                 <table>
                     <thead>
@@ -82,7 +91,7 @@ $articles = [
                     <tr>
                         <th><label for="name">名前</label></th>
                         <td><input type="text" name="name" id="name" required></td>
-                        <!-- #1 初期値の指定(value) -->
+                        <!-- # 初期値の指定(value) -->
                         <!-- # エンティティ化(htmlspecialchars()) -->
                         <!-- <td><input type="text" name="name" id="name" value="<?= htmlspecialchars($_COOKIE['user_name'] ?? '') ?>"></td> -->
                     <tr>
@@ -91,6 +100,10 @@ $articles = [
                     </tr>
                     </tbody>
                 </table>
+                <!-- 
+                    #4（type="submit"）にて、formタグ内にて、これまでに入力した内容を予め指定した送り先（action="confirm.php"）
+                    へ予め指定したリクエスト方式（method="post"）にて送信する。
+                 -->
                 <button type="submit">投稿</button>
             </form>
         </div>
