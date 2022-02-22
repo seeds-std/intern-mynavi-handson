@@ -12,6 +12,7 @@ services:
       MYSQL_USER: user
       MYSQL_PASSWORD: password
       MYSQL_RANDOM_ROOT_PASSWORD: 1
+    platform: linux/amd64
   web:
     build:
       context: docker/web

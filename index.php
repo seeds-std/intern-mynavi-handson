@@ -1,15 +1,15 @@
 <?php
-/* ------------------------------
+/* ----------------------------------------
  * 必要なファイルを読み込む
- * ------------------------------ */
+ * ---------------------------------------- */
 require_once 'private/bootstrap.php';
 require_once 'private/database.php';
 
 /** @var PDO $dbh データベースハンドラ */
 
-/* --------------------
+/* ----------------------------------------
  * セッション開始
- * -------------------- */
+ * ---------------------------------------- */
 session_start();
 
 /* ----------------------------------------
@@ -87,11 +87,11 @@ $errors = $_SESSION['errors'];
                     <tbody>
                     <tr>
                         <th><label for="name">名前</label></th>
-                        <td><input type="text" name="name" id="name" value="<?= htmlspecialchars($_COOKIE['user_name'] ?? '') ?>"></td>
+                        <td><input type="text" name="name" id="name" value="<?= htmlspecialchars($_COOKIE['user_name'] ?? '') ?>" required></td>
                     </tr>
                     <tr>
                         <th><label for="content">投稿内容</label></th>
-                        <td><textarea name="content" id="content" rows="4"></textarea></td>
+                        <td><textarea name="content" id="content" rows="4" required></textarea></td>
                     </tr>
                     </tbody>
                 </table>
@@ -111,6 +111,6 @@ $errors = $_SESSION['errors'];
 /* --------------------
  * Session削除
  * -------------------- */
-foreach (array_keys($_SESSION) as $key) {
+foreach (array_keys($_SESSION ?? []) as $key) {
     unset($_SESSION[$key]);
 }
