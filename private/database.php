@@ -14,10 +14,10 @@ define('DB_NAME', 'bbs');
 define('DB_USER', 'user');
 define('DB_PASSWORD', 'password');
 
-/* ------------------------------
+/* ----------------------------------------------------------------------
  * データベースハンドラ
  * データベースへの各種操作を行う
- * ------------------------------ */
+ * ---------------------------------------------------------------------- */
 $dbh = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME . ';charset=utf8mb4;', DB_USER, DB_PASSWORD);
 $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); // エラー発生時は例外を出すようにする
 $dbh->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
