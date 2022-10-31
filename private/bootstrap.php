@@ -9,4 +9,4 @@ require_once 'helper.php';
 /* --------------------------------------------------
  * DBを用いてSessionを管理する場合はコメントアウトを外す
  * -------------------------------------------------- */
-// require_once 'session_handler.php';
+require_once 'session_handler.php';
