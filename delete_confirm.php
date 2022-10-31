@@ -5,8 +5,6 @@
 require_once 'private/bootstrap.php';
 require_once 'private/database.php';
 
-/** @var PDO $dbh データベースハンドラ */
-
 /* --------------------------------------------------
  * 送られてきた値を取得する
  * セッションにも保存しておく
@@ -55,7 +53,7 @@ $token = strval(time());
             <tr><th>投稿内容</th><td><?= nl2br(htmlspecialchars($content)) ?></td></tr>
             </tbody>
         </table>
-        <form action="deleted.php" method="post">
+        <form action="delete_complete.php" method="post">
             <input type="hidden" name="token" value="<?= $token ?>">
             <button type="submit">削除</button>
         </form>

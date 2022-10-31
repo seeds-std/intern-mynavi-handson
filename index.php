@@ -3,12 +3,17 @@
  * 必要なファイルを読み込む
  * ---------------------------------------- */
 require_once 'private/bootstrap.php';
-
-/** @var PDO $dbh データベースハンドラ */
+require_once 'private/database.php';
 
 /* ----------------------------------------
  * セッション開始
  * ---------------------------------------- */
+session_start();
+
+/* ----------------------------------------
+ * データベース接続
+ * ---------------------------------------- */
+$connection = connectDB();
 
 /* ----------------------------------------
  * データベースから投稿されている内容を取得する
@@ -59,7 +64,7 @@ $articles = [
                             <button type="submit">編集</button>
                         </form>
                         &nbsp;
-                        <form action="confirm_delete.php" method="post">
+                        <form action="delete_confirm.php" method="post">
                             <input type="hidden" name="id" value="<?= $article['id'] ?>">
                             <button type="submit">削除</button>
                         </form>
@@ -69,7 +74,7 @@ $articles = [
             <?php } ?>
         </ul>
         <div>
-            <form action="confirm.php" method="post">
+            <form action="post_confirm.php" method="post">
                 <table>
                     <thead>
                     <tr>

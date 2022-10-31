@@ -5,8 +5,6 @@
 require_once 'private/bootstrap.php';
 require_once 'private/database.php';
 
-/** @var PDO $dbh データベースハンドラ */
-
 /* --------------------------------------------------
  * 送られてきた値を取得する
  * セッションにも保存しておく

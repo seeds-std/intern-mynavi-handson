@@ -14,10 +14,10 @@ define('DB_NAME', 'bbs');
 define('DB_USER', 'user');
 define('DB_PASSWORD', 'password');
 
-$dbh = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME . ';charset=utf8mb4;', DB_USER, DB_PASSWORD);
-$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); // エラー発生時は例外を出すようにする
-$dbh->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC); // データの取得は連想配列で行う
+mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT); // 問題があった場合に例外を出す
+$connection = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME, DB_PORT);
 
-$statement = $dbh->prepare('SELECT * FROM `articles`');
-$statement->execute();
-$articles = $statement->fetchAll();
+$statement = mysqli_prepare($connection, 'SELECT * FROM `articles`');
+mysqli_stmt_execute($statement);
+$result = mysqli_stmt_get_result($statement);
+$articles = mysqli_fetch_all($result, MYSQLI_ASSOC);
