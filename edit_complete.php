@@ -38,7 +38,8 @@ $content = $_SESSION['edit_content'] ?? '';
  * -------------------------------------------------- */
 $connection = connectDB();
 $statement = mysqli_prepare($connection, 'UPDATE `articles` SET name = ?, content = ? WHERE id = ?');
-mysqli_stmt_execute($statement, [$name, $content, $id]);
+mysqli_stmt_bind_param($statement, 'ssi', $name, $content, $id);
+mysqli_stmt_execute($statement);
 
 /* --------------------------------------------------
  * セッション内のデータを削除する

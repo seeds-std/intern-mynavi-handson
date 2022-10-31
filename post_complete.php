@@ -41,7 +41,8 @@ $connection = connectDB();
  * データのインサート処理
  * -------------------------------------------------- */
 $statement = mysqli_prepare($connection, 'INSERT INTO `articles`(name, content) VALUES (?, ?)');
-mysqli_stmt_execute($statement, [$name, $content]);
+mysqli_stmt_bind_param($statement, 'ss', $name, $content);
+mysqli_stmt_execute($statement);
 
 /* --------------------------------------------------
  * セッション内のデータを削除する

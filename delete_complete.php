@@ -36,7 +36,8 @@ $id = $_SESSION['id'];
  * -------------------------------------------------- */
 $connection = connectDB();
 $statement = mysqli_prepare($connection, 'DELETE FROM `articles` WHERE id = ?');
-mysqli_stmt_execute($statement, [$id]);
+mysqli_stmt_bind_param($statement, 'i', $id);
+mysqli_stmt_execute($statement);
 
 /* --------------------------------------------------
  * セッション内のデータを削除する

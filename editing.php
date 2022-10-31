@@ -30,7 +30,8 @@ if(empty($id)) {
 // 2.データベースに対象IDのレコードが存在するか
 $connection = connectDB();
 $statement = mysqli_prepare($connection, 'SELECT * FROM `articles` WHERE id = ?');
-mysqli_stmt_execute($statement, [$id]);
+mysqli_stmt_bind_param($statement, 'i', $id);
+mysqli_stmt_execute($statement);
 $result = mysqli_stmt_get_result($statement);
 $articles = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
