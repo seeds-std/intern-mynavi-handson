@@ -5,8 +5,6 @@
 require_once 'private/bootstrap.php';
 require_once 'private/database.php';
 
-/** @var PDO $dbh データベースハンドラ */
-
 /* --------------------------------------------------
  * セッション開始
  * -------------------------------------------------- */
@@ -18,35 +16,38 @@ session_start();
 $token = $_POST['token'] ?? '';
 
 /* --------------------------------------------------
+ * 送られてきたトークンのバリデーション
+ *
+ * セッションに保存されているトークンと比較し、
+ * 一致していなかった場合はトップ画面にリダイレクトする
+ * -------------------------------------------------- */
+if($token !== $_SESSION['token']) {
+    unset($_SESSION['token']);
+    redirect('/index.php');
+}
+
+/* --------------------------------------------------
  * セッション内に保存した投稿内容を取得する
  * -------------------------------------------------- */
 $name = $_SESSION['name'];
 $content = $_SESSION['content'];
 
 /* --------------------------------------------------
- * 送られてきたトークンのバリデーション
- *
- * セッションに保存されているトークンと比較し、
- * 一致していなかった場合はトップ画面にリダイレクトする
+ * データベース接続
  * -------------------------------------------------- */
-if($token !== $_SESSION['token'] || !isset($name) || !isset($content) || empty($name) || empty($content)) {
-    unset($_SESSION['token']);
-    redirect('/index.php');
-}
+$connection = connectDB();
 
 /* --------------------------------------------------
  * データのインサート処理
  * -------------------------------------------------- */
-$statement = $dbh->prepare('INSERT INTO `articles`(name, content) VALUES (:name, :content)');
-$statement->execute([
-    'name' => $name,
-    'content' => $content,
-]);
+$statement = mysqli_prepare($connection, 'INSERT INTO `articles`(name, content) VALUES (?, ?)');
+mysqli_stmt_execute($statement, [$name, $content]);
 
 /* --------------------------------------------------
  * セッション内のデータを削除する
  * -------------------------------------------------- */
 unset($_SESSION['token']);
+unset($_SESSION['name']);
 unset($_SESSION['content']);
 
 /* --------------------------------------------------

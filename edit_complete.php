@@ -5,8 +5,6 @@
 require_once 'private/bootstrap.php';
 require_once 'private/database.php';
 
-/** @var PDO $dbh データベースハンドラ */
-
 /* --------------------------------------------------
  * セッション開始
  * -------------------------------------------------- */
@@ -18,7 +16,7 @@ session_start();
 $token = $_POST['token'] ?? '';
 
 /* --------------------------------------------------
- * 送られてきたトークンのバリデーション + 値のバリデーション
+ * 送られてきたトークンのバリデーション
  *
  * セッションに保存されているトークンと比較し、
  * 一致していなかった場合はトップ画面にリダイレクトする
@@ -38,12 +36,9 @@ $content = $_SESSION['edit_content'] ?? '';
 /* --------------------------------------------------
  * データの更新処理
  * -------------------------------------------------- */
-$statement = $dbh->prepare('UPDATE `articles` SET name = :name, content = :content WHERE id = :id');
-$statement->execute([
-    'id' => $id,
-    'name' => $name,
-    'content' => $content,
-]);
+$connection = connectDB();
+$statement = mysqli_prepare($connection, 'UPDATE `articles` SET name = ?, content = ? WHERE id = ?');
+mysqli_stmt_execute($statement, [$name, $content, $id]);
 
 /* --------------------------------------------------
  * セッション内のデータを削除する

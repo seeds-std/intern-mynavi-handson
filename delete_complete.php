@@ -5,8 +5,6 @@
 require_once 'private/bootstrap.php';
 require_once 'private/database.php';
 
-/** @var PDO $dbh データベースハンドラ */
-
 /* --------------------------------------------------
  * セッション開始
  * -------------------------------------------------- */
@@ -36,10 +34,9 @@ $id = $_SESSION['id'];
 /* --------------------------------------------------
  * データの削除処理
  * -------------------------------------------------- */
-$statement = $dbh->prepare('DELETE FROM `articles` WHERE id = :id');
-$statement->execute([
-    'id' => $id,
-]);
+$connection = connectDB();
+$statement = mysqli_prepare($connection, 'DELETE FROM `articles` WHERE id = ?');
+mysqli_stmt_execute($statement, [$id]);
 
 /* --------------------------------------------------
  * セッション内のデータを削除する

@@ -54,15 +54,11 @@ $_SESSION['edit_content'] =  $content;
             <tr><th>内容</th><td><?= nl2br(htmlspecialchars($content)) ?></td></tr>
             </tbody>
         </table>
-        <div style="display: inline-flex;">
-            <form action="edit_complete.php" method="post">
-                <input type="hidden" name="token" value="<?= $token ?>">
-                <button type="submit">投稿</button>
-            </form>
-            <form action="editing.php" method="get">
-                <button type="submit">戻る</button>
-            </form>
-        </div>
+        <form action="edit_complete.php" method="post">
+            <input type="hidden" name="token" value="<?= $token ?>">
+            <button type="submit">投稿</button>
+            <a href="editing.php"><button type="button">戻る</button></a>
+        </form>
     </main>
     <footer>
         <hr>

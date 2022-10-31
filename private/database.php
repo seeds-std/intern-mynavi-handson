@@ -15,9 +15,10 @@ define('DB_USER', 'user');
 define('DB_PASSWORD', 'password');
 
 /* ----------------------------------------------------------------------
- * データベースハンドラ
- * データベースへの各種操作を行う
+ * データベースへの接続を行う
  * ---------------------------------------------------------------------- */
-$dbh = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME . ';charset=utf8mb4;', DB_USER, DB_PASSWORD);
-$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); // エラー発生時は例外を出すようにする
-$dbh->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+function connectDB()
+{
+    mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT); // 問題があった場合に例外を出す
+    return mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME, DB_PORT);
+}

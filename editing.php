@@ -5,8 +5,6 @@
 require_once 'private/bootstrap.php';
 require_once 'private/database.php';
 
-/** @var PDO $dbh データベースハンドラ */
-
 /* --------------------------------------------------
  * セッション開始
  * -------------------------------------------------- */
@@ -30,19 +28,23 @@ if(empty($id)) {
 }
 
 // 2.データベースに対象IDのレコードが存在するか
-$statement = $dbh->prepare('SELECT * FROM `articles` WHERE id = :id');
-$statement->execute(['id' => $id]);
-$result = $statement->fetch();
+$connection = connectDB();
+$statement = mysqli_prepare($connection, 'SELECT * FROM `articles` WHERE id = ?');
+mysqli_stmt_execute($statement, [$id]);
+$result = mysqli_stmt_get_result($statement);
+$articles = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
-if($result === false) {
+if(empty($articles) || empty($articles[0])) {
     redirect('/index.php');
 }
+
+$article = $articles[0];
 
 /* --------------------------------------------------
  * 編集する投稿のデータ
  * -------------------------------------------------- */
-$name = $_SESSION['edit_name'] ?? $result['name'];
-$content = $_SESSION['edit_content'] ?? $result['content'];
+$name = $_SESSION['edit_name'] ?? $article['name'];
+$content = $_SESSION['edit_content'] ?? $article['content'];
 
 unset($_SESSION['edit_name']);
 unset($_SESSION['edit_content']);
@@ -79,7 +81,7 @@ $token = $_SESSION['token'] = strval(time());
         <h1>投稿編集</h1>
     </header>
     <main>
-        <form action="confirm_edit.php" method="post">
+        <form action="edit_confirm.php" method="post">
             <input type="hidden" name="token" value="<?= $token ?>">
             <table>
                 <tbody>
@@ -89,7 +91,7 @@ $token = $_SESSION['token'] = strval(time());
                 </tr>
                 <tr>
                     <th><label for="content">投稿内容</label></th>
-                    <td><textarea name="content" id="content" rows="4" required><?= $content ?></textarea></td>
+                    <td><textarea name="content" id="content" rows="4" required><?= htmlspecialchars($content) ?></textarea></td>
                 </tr>
                 </tbody>
             </table>

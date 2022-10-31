@@ -5,21 +5,25 @@
 require_once 'private/bootstrap.php';
 require_once 'private/database.php';
 
-/** @var PDO $dbh データベースハンドラ */
-
 /* ----------------------------------------
  * セッション開始
  * ---------------------------------------- */
 session_start();
 
 /* ----------------------------------------
+ * データベース接続
+ * ---------------------------------------- */
+$connection = connectDB();
+
+/* ----------------------------------------
  * データベースから投稿されている内容を取得する
  * ---------------------------------------- */
-$statement = $dbh->prepare('SELECT * FROM `articles`');
-$statement->execute();
-$articles = $statement->fetchAll();
+$statement = mysqli_prepare($connection, 'SELECT * FROM `articles`');
+mysqli_stmt_execute($statement);
+$result = mysqli_stmt_get_result($statement);
+$articles = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
-$errors = $_SESSION['errors'];
+$errors = $_SESSION['errors'] ?? [];
 
 ?>
 
@@ -60,7 +64,7 @@ $errors = $_SESSION['errors'];
                             <button type="submit">編集</button>
                         </form>
                         &nbsp;
-                        <form action="confirm_delete.php" method="post">
+                        <form action="delete_confirm.php" method="post">
                             <input type="hidden" name="id" value="<?= $article['id'] ?>">
                             <button type="submit">削除</button>
                         </form>
@@ -77,7 +81,7 @@ $errors = $_SESSION['errors'];
                     <?php } ?>
                 </ul>
             <?php } ?>
-            <form action="confirm.php" method="post">
+            <form action="post_confirm.php" method="post">
                 <table>
                     <thead>
                     <tr>
@@ -87,11 +91,11 @@ $errors = $_SESSION['errors'];
                     <tbody>
                     <tr>
                         <th><label for="name">名前</label></th>
-                        <td><input type="text" name="name" id="name" value="<?= htmlspecialchars($_COOKIE['user_name'] ?? '') ?>" required></td>
+                        <td><input type="text" name="name" id="name" value="<?= htmlspecialchars($_SESSION['name'] ?? $_COOKIE['user_name'] ?? '') ?>" required></td>
                     </tr>
                     <tr>
                         <th><label for="content">投稿内容</label></th>
-                        <td><textarea name="content" id="content" rows="4" required></textarea></td>
+                        <td><textarea name="content" id="content" rows="4" required><?= htmlspecialchars($_SESSION['content'] ?? '') ?></textarea></td>
                     </tr>
                     </tbody>
                 </table>
