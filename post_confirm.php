@@ -13,8 +13,8 @@ session_start();
  * 送られてきた値を取得する
  * セッションにも保存しておく
  * -------------------------------------------------- */
-$name = $_SESSION['name'] = $_POST['name'];
-$content = $_SESSION['content'] =  $_POST['content'];
+$name = $_SESSION['name'] = $_POST['name'] ?? '';
+$content = $_SESSION['content'] =  $_POST['content'] ?? '';
 
 /* --------------------------------------------------
  * 値のバリデーションを行う
