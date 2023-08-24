@@ -21,7 +21,7 @@ $token = $_POST['token'] ?? '';
  * セッションに保存されているトークンと比較し、
  * 一致していなかった場合はトップ画面にリダイレクトする
  * -------------------------------------------------- */
-if($token !== $_SESSION['token']) {
+if(!isset($_SESSION['token']) || $token !== $_SESSION['token']) {
     unset($_SESSION['token']);
     redirect('/index.php');
 }

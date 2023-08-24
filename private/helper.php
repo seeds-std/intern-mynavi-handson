@@ -40,7 +40,13 @@ if (!function_exists('redirect')) {
         $schema = isset($_SERVER['HTTPS']) ? 'https' : 'http';
         $host = $_SERVER['HTTP_HOST'];
         $location = str_remove_prefix($location, '/');
-        header('Location: ' . $schema . '://' . $host . '/' . $location, true, $status);
+        $url = $schema . '://' . $host . '/' . $location;
+
+        if (!headers_sent()) {
+            header('Location: ' . $url, true, $status);
+        }
+
+        echo sprintf('<div>リダイレクト先: <a href="%1$s">%1$s</a></div>', htmlspecialchars($url, ENT_QUOTES, 'UTF-8'));
         exit;
     }
 }

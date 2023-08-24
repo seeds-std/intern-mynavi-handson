@@ -19,7 +19,7 @@ $token = $_POST['token'] ?? '';
 /* --------------------------------------------------
  * 値のバリデーション
  * -------------------------------------------------- */
-if($token !== $_SESSION['token'] || empty($name) || empty($content)) {
+if(!isset($_SESSION['token']) || $token !== $_SESSION['token'] || empty($name) || empty($content)) {
     redirect('/editing.php');
 }
 
