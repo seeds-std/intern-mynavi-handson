@@ -1,7 +1,11 @@
-# はじめに
+# インターンシップ掲示板
+
+## はじめに
+
 インターンシップに参加していただきありがとうございます
 
-# フォルダの構成
+## フォルダの構成
+
 - `demo/playground.php`... ほぼ何もないPHPのファイルです。自由にお使いください
 - `demo/xss.php`... XSSを体験できるファイルです
 - `private/database.php`... DBの設定が入っております
@@ -15,24 +19,30 @@
 - `post_complete.php`... 登録完了画面です
 - `post_confirm.php`... 投稿時の確認画面です
 
-# 開発環境の立ち上げ
+## 開発環境の立ち上げ
+
 ```shell
 docker compose up -d
 ```
+
 上記コマンドでエラーが出た場合
+
 ```shell
 docker-compose up -d
 ```
+
 ブラウザで [http://localhost/index.php](http://localhost/index.php) にアクセスしてください
 
-# 編集順
-本日は下記の順に編集していきます
+## 編集順
+
+本日は下記の順に編集します
+
 1. `private/database.php`
-1. `index.php`
-1. `post_confirm.php`
-1. `post_complete.php`
-1. `index.php`
-1. `editing.php`
-1. `edit_complete.php`
-1. `delete_confirm.php`
-1. `delete_complete.php`
+2. `index.php`
+3. `post_confirm.php`
+4. `post_complete.php`
+5. `index.php`
+6. `editing.php`
+7. `edit_complete.php`
+8. `delete_confirm.php`
+9. `delete_complete.php`
