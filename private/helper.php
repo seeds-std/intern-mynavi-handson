@@ -1,5 +1,5 @@
 <?php
-/* --------------------
+/* -------------------- *
  * ヘルパー関数
  * -------------------- */
 
@@ -58,7 +58,21 @@ if (!function_exists('dd')) {
      */
     function dd(...$vars) {
         echo '<pre>';
+        if (!ob_start()) {
+            var_dump(...$vars);
+            echo '</pre>';
+            exit;
+        }
+
         var_dump(...$vars);
+        $content = ob_get_clean();
+
+        if ($content === false) {
+            var_dump(...$vars);
+            echo '</pre>';
+            exit;
+        }
+        echo htmlspecialchars($content);
         echo '</pre>';
         exit;
     }

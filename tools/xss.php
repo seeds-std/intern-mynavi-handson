@@ -1,5 +1,5 @@
 <?php
-/* ----------
+/* ---------- *
  * XSSのデモ
  * ---------- */
 $input = $_POST['text'] ?? '';
@@ -48,6 +48,7 @@ $input = $_POST['text'] ?? '';
     <footer>
         <hr>
         X(・$・)S
+        <div style="margin-top: 1rem"><a href="index.html">トップページへ</a></div>
     </footer>
 </body>
 </html>
