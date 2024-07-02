@@ -1,5 +1,5 @@
 <?php
-/* --------------------
+/* -------------------- *
  * ヘルパー関数
  * -------------------- */
 
@@ -40,13 +40,7 @@ if (!function_exists('redirect')) {
         $schema = isset($_SERVER['HTTPS']) ? 'https' : 'http';
         $host = $_SERVER['HTTP_HOST'];
         $location = str_remove_prefix($location, '/');
-        $url = $schema . '://' . $host . '/' . $location;
-
-        if (!headers_sent()) {
-            header('Location: ' . $url, true, $status);
-        }
-
-        echo sprintf('<div>リダイレクト先: <a href="%1$s">%1$s</a></div>', htmlspecialchars($url, ENT_QUOTES, 'UTF-8'));
+        header('Location: ' . $schema . '://' . $host . '/' . $location, true, $status);
         exit;
     }
 }
@@ -58,7 +52,21 @@ if (!function_exists('dd')) {
      */
     function dd(...$vars) {
         echo '<pre>';
+        if (!ob_start()) {
+            var_dump(...$vars);
+            echo '</pre>';
+            exit;
+        }
+
         var_dump(...$vars);
+        $content = ob_get_clean();
+
+        if ($content === false) {
+            var_dump(...$vars);
+            echo '</pre>';
+            exit;
+        }
+        echo htmlspecialchars($content);
         echo '</pre>';
         exit;
     }
