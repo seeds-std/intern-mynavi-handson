@@ -20,28 +20,41 @@ if (empty($requestUri) || $requestUri === 'index.php') {
     <li>
         <a href="q04.php">問題4</a>
         <ul>
-            <li><a href="q04EX.php">問題4EX</a></li>
+            <li><a href="q04EX1.php">問題4EX1</a></li>
+            <li><a href="q04EX2.php">問題4EX2</a></li>
         </ul>
     </li>
     <li>
         <a href="q05.php">問題5</a>
         <ul>
-            <li><a href="q05EX.php">問題5EX</a></li>
+            <li><a href="q05EX1.php">問題5EX1</a></li>
+            <li><a href="q05EX2.php">問題5EX2</a></li>
         </ul>
     </li>
     <br>
-    <li><a href="q06.php">問題6</a></li>
+    <li>
+        <a href="q06.php">問題6</a>
+        <ul>
+            <li><a href="q06EX.php">問題6EX</a></li>
+        </ul>
+    </li>
     <li><a href="q07.php">問題7</a></li>
     <br>
     <li>
         <a href="q08.php">問題8</a>
         <ul>
-            <li><a href="q08EX.php">問題8EX</a></li>
+            <li><a href="q08EX1.php">問題8EX1</a></li>
+            <li><a href="q08EX2.php">問題8EX2</a></li>
         </ul>
     </li>
     <li><a href="q09.php">問題9</a></li>
     <br>
-    <li><a href="q10.php">問題10</a></li>
+    <li>
+        <a href="q10.php">問題10</a>
+        <ul>
+            <li><a href="q10EX.php">問題10EX</a></li>
+        </ul>
+    </li>
     <li><a href="q11.php">問題11</a></li>
     <li>
         <a href="q12.php">問題12</a>
@@ -68,7 +81,7 @@ HTML;
 
     // ページタイトルの生成
     $matches = [];
-    if (preg_match('/q0*(\d+(EX)?)\.php/', $requestUri, $matches)) {
+    if (preg_match('/q0*(\d+(EX\d*)?)\.php/', $requestUri, $matches)) {
         $pageTitle = htmlspecialchars('問題' . $matches[1]);
     } else {
         $pageTitle = htmlspecialchars(preg_replace('/[^a-zA-Z0-9]/', ' ', strtoupper(substr($requestUri, 0, -4))));
