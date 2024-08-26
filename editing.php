@@ -55,7 +55,6 @@ $token = strval(time());
         }
         textarea, input[type=text] {
             border: solid 1px gray;
-            box-sizing: border-box;
             padding: 4px;
             width: 100%;
         }
