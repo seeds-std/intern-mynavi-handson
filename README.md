@@ -6,8 +6,7 @@
 
 ## フォルダの構成
 
-- `demo/playground.php`... ほぼ何もないPHPのファイルです。自由にお使いください
-- `demo/xss.php`... XSSを体験できるファイルです
+- `tools/reset_db.php`... DBを初期化できるファイルです
 - `private/database.php`... DBの設定が入っております
 - `private/exception_handler.php`... エラー画面用のファイルです
 - `private/helper.php`... ヘルパー関数が定義されたファイルです
@@ -23,12 +22,6 @@
 
 ```shell
 docker compose up -d
-```
-
-上記コマンドでエラーが出た場合
-
-```shell
-docker-compose up -d
 ```
 
 ブラウザで [http://localhost/index.php](http://localhost/index.php) にアクセスしてください
